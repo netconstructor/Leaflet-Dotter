@@ -1,6 +1,22 @@
   var map;
+  var kind;
 
   $(document).ready(function(){
+    if (gup('markers')) {
+      kind = "markers";
+      $('a:contains("Leaflet")').addClass('selected');
+    } else {
+      kind = 'own';
+      $('a:contains("own")').addClass('selected');
+    }
+    
+    $('div.choices a').click(function(ev){
+      ev.stopPropagation();
+      ev.preventDefault();
+      window.location.href = $(this).attr('href');
+    });
+    
+    
     map = new L.Map('map'); 
     var mapnik = new L.TileLayer('http://{s}.tile.cloudmade.com/BC9A493B41014CAABB98F0471D759707/22677/256/{z}/{x}/{y}.png', {maxZoom: 18, attribution: ""});
     var earth = new L.LatLng(37.77, -122.44);
@@ -31,20 +47,23 @@
 
     for (var i = 0, crime; crime = incidents[i]; ++i) {
       var latlng = new L.LatLng(crime.lnglat[1],crime.lnglat[0]);
-      //var color = colors[crime.type];
-      // var CrimeIcon = L.Icon.extend({
-      //     iconUrl: dotter.getDot(color),
-      //     shadowUrl: '',
-      //     shadowSize: new L.Point(0,0),
-      //     iconSize: new L.Point(4, 4),
-      //     iconAnchor: new L.Point(1, 1),
-      //     popupAnchor: new L.Point(1, 1)
-      // });
-      //var marker = new L.Marker(latlng,{icon:new CrimeIcon()});
-      //map.addLayer(marker);
       
-      var image = dotter.getDot(colors[crime.type]);
-      var marker = new L.CrimeDot(latlng,image,map,null);
+      if (kind=="markers") {
+        var color = colors[crime.type];
+        var CrimeIcon = L.Icon.extend({
+            iconUrl: dotter.getDot(color),
+            shadowUrl: '',
+            shadowSize: new L.Point(0,0),
+            iconSize: new L.Point(4, 4),
+            iconAnchor: new L.Point(1, 1),
+            popupAnchor: new L.Point(1, 1)
+        });
+        var marker = new L.Marker(latlng,{icon:new CrimeIcon()});
+        map.addLayer(marker);
+      } else {
+        var image = dotter.getDot(colors[crime.type]);
+        var marker = new L.CrimeDot(latlng,image,map,null);
+      }
     }
 
     // Create legend
@@ -58,6 +77,13 @@
   });
   
   
-  function drawDot() {
-    
+  function gup(name) {
+    name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
+    var regexS = "[\\?&]"+name+"=([^&#]*)";
+    var regex = new RegExp( regexS );
+    var results = regex.exec( window.location.href );
+    if( results == null )
+      return "";
+    else
+      return results[1];
   }
