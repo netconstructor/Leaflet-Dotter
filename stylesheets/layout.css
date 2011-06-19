@@ -1,7 +1,9 @@
 * {font-family:"Helvetica Neue",Arial!important;}
 #header,#legend{position:absolute;z-index:1000;background:rgba(255,255,255,0.9);}
 #header{width:100%;font-size:24px;height:40px;line-height:40px;}
-#header div{padding:0 90px;}
+#header div{display:block; padding:0 90px;}
+#header p {position:absolute; top:10px; right:10px; font:normal 14px Arial;}
+#header p a {color:#ff9900;}
 #legend{top:40px;right:0;padding-bottom:5px;border-bottom-left-radius:15px;}
 #legend img{vertical-align:middle;margin-right:10px;}
 #legend div{font-size:13px;padding:5px 10px;}
