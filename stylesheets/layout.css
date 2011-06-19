@@ -1,0 +1,8 @@
+* {font-family:"Helvetica Neue",Arial!important;}
+#header,#legend{position:absolute;z-index:1000;background:rgba(255,255,255,0.5);}
+#header{width:100%;font-size:24px;height:40px;line-height:40px;}
+#header div{padding:0 90px;}
+#legend{top:40px;right:0;padding-bottom:5px;border-bottom-left-radius:15px;}
+#legend img{vertical-align:middle;margin-right:10px;}
+#legend div{font-size:13px;padding:5px 10px;}
+div#map{position:absolute;top:0;left:0;right:0;bottom:0;height:100%;width:100%;}
